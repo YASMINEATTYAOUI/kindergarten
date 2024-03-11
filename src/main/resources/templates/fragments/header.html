@@ -1,0 +1,117 @@
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center header-transparent">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <div class="logo me-auto">
+        <h1><a th:href="index.html">Happy Kiddos</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a th:href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+      <th:block th:if="${currentuser == null}">
+        <div>
+          <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto active" th:href="@{/}">Home</a></li>
+                <li><a class="nav-link scrollto" href="#kinder">Kindergartens</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+          </nav><!-- .navbar -->
+        </div>
+      </th:block>
+      <th:block th:unless="${currentuser == null}">
+
+
+      <div th:switch="${currentuser.type}">
+        <div th:case="'Admin'"> 
+
+            <nav id="navbar" class="navbar order-last order-lg-0">
+              <ul>
+                  <li><a class="nav-link scrollto active" th:href="@{/}">Home</a></li>
+                  <li><a class="nav-link scrollto" href="#kinder">Kindergartens</a></li>
+                  <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-down"></i></a>
+                      <ul>
+                          <li><a th:href="@{/accesspermission}">Access Permissions</a></li>
+                          <li><a th:href="@{/compte}">Account Management</a></li>
+                      </ul>
+                  </li>
+              </ul>
+              <i class="bi bi-list mobile-nav-toggle"></i>
+              <form id="flogout" th:action="@{/logout}" method="post">
+                <a  class="book-a-table-btn scrollto" style="width:95px;font-size:12px;" onClick="document.getElementById('flogout').submit();"><b> Logout</b></a>
+            </form>
+            </nav><!-- .navbar -->
+
+        </div>
+
+
+        <div th:case="'Parent'"> 
+            
+          <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto active" th:href="@{/}">Home</a></li>
+                <li><a class="nav-link scrollto" th:href="@{/parent/profile/myProfile}">My Profile</a></li>
+              
+              <li class="dropdown"><a href="#"><span>Children</span> <i class="bi bi-chevron-down"></i></a>
+                <ul>
+                  <li><a class="nav-link scrollto" th:href="@{/parent/children}">Children</a></li>
+                  
+                  <li><a class="nav-link scrollto" th:href="@{/parent/registeredChildren}">Registered Children</a></li>
+                  <li><a class="nav-link scrollto" href="#kinder">Register Your Child</a></li>
+                  <li><a class="nav-link scrollto" th:href="@{/parent/children/unenroll}">UnRegister Your Child</a></li>
+                </ul>
+              </li>
+              <li><a class="nav-link scrollto" th:href="@{/parent/payment}">Payment</a></li>
+              <li><a class="nav-link scrollto" th:href="@{/parent/stream}">child Video Call</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+            <form id="flogout" th:action="@{/logout}" method="post">
+              <a  class="book-a-table-btn scrollto" style="width:95px;font-size:12px;" onClick="document.getElementById('flogout').submit();"><b> Logout</b></a>
+          </form>
+          </nav><!-- .navbar -->
+
+      </div>
+      
+
+      <div th:case="'Kindergarten Director'"> 
+            
+        <nav id="navbar" class="navbar order-last order-lg-0">
+          <ul>
+              <li><a class="nav-link scrollto active" th:href="@{/}">Home</a></li>
+              <li><a class="nav-link scrollto" th:href="@{/director/profile}">Profile</a></li>
+              <li><a class="nav-link scrollto" th:href="@{/director/kindergarten}">Kindergartens</a></li>
+              <li><a class="nav-link scrollto" th:href="@{/director/children}">Validate Child Registering</a></li>
+              <li><a class="nav-link scrollto" th:href="@{/director/class}">Classes</a></li>
+              <li><a class="nav-link scrollto" th:href="@{/director/teacher}">Teachers </a></li>
+              <li><a class="nav-link scrollto" th:href="@{/director/activities}">Activities </a></li>
+              <li class="dropdown"><a href="#"><span>Payment</span> <i class="bi bi-chevron-down"></i></a>
+                <ul>
+                  <li><a class="nav-link scrollto" th:href="@{/director/paymentParams}">Set Payment Parameters</a></li>
+                  <li><a class="nav-link scrollto" th:href="@{/director/payments}">Consult Payments</a></li>
+                </ul>
+              </li>
+              <li><a class="nav-link scrollto" th:href="@{/director/stream}">child Video Call</a></li>
+
+            </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+          <form id="flogout" th:action="@{/logout}" method="post">
+            <a  class="book-a-table-btn scrollto" style="width:95px;font-size:12px;" onClick="document.getElementById('flogout').submit();"><b> Logout</b></a>
+        </form>
+        </nav><!-- .navbar -->
+
+    </div>
+
+        <div th:case="*">   
+          <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto active" th:href="@{/}">Home</a></li>
+                <li><a class="nav-link scrollto" href="#kinder">Kindergartens</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+          </nav><!-- .navbar -->
+        </div>
+
+
+      </th:block>
+    </div>
+  </header><!-- End Header -->

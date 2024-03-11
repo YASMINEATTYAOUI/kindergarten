@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>KinderGarten </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link th:href="@{/assets/img/favicon.png}" rel="icon">
+  <link th:href="@{/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/assets/vendor/animate.css/animate.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+  
+  <!--<script src="https://cdn.tutorialjinni.com/hls.js/1.2.1/hls.min.js"></script>-->
+    
+  <script>
+    var winddisp;
+    var streaming = false;
+  
+    async function saveStreamKey() {
+        emailparent = document.getElementById("emailparent").value;
+        idenfant = document.getElementById("idenfant").value; 
+        keyparent = document.getElementById("keyparent").value;
+        keyenfant = document.getElementById("keyenfant").value;
+        url = "http://localhost:8080/api/streamkeys/" + emailparent + "/" + idenfant + "/" + keyparent + "/" + keyenfant;
+        let x = await fetch(url);
+        let y = await x.text();
+        res = JSON.parse(y);
+        
+    }
+  
+
+    function makeid(length) {
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return result;
+    }
+
+    function streamingCamera() {
+      if (!streaming) {
+        keystream = makeid(8);
+        document.getElementById("keystream0").value = keystream;
+        document.getElementById("btn_streaming").innerHTML = "Stop Streaming Your Camera";
+        streaming = true;
+        document.getElementById("keyenfant").value = keystream;
+        saveStreamKey();
+        url = 'https://localhost:4443?key=' + keystream;
+        winddisp = window.open(url, '_blank');      
+      }
+      else {
+        document.getElementById("btn_streaming").innerHTML = "Stream Your Camera";
+        streaming = false;
+        document.getElementById("keystream0").value =""; 
+        document.getElementById("keyenfant").value = "_"; 
+        saveStreamKey();
+        winddisp.close();
+      }
+    }
+
+  </script>
+</head>
+
+<body onload="initPage('Trko4y')">
+  
+  <!-- ======= Top Bar ======= -->
+  <section th:replace="/fragments/topbar.html :: topbar">
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header th:replace="/fragments/header.html :: header">
+  </header><!-- End Header -->
+
+  
+    <!-- ======= Hero Section ======= -->
+    <section id="hero">
+        <div class="hero-container">
+          <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    
+            <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+    
+            <div class="carousel-inner" role="listbox">
+    
+              <!-- Slide 1 -->
+              <div class="carousel-item active" style="background-image: url(/assets/img/bg_1.jpg);">
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+        
+      
+            <div class="container" style="width:1000px;">
+              <table>
+                <tr><td>
+          
+                  <div class="card" style="max-height:500px;">
+              <div class="card-header">           
+                  <h4 style="color:orange;"><b>Respond To a Video Call From Your Parent </b></h4>  
+                  <h6 class="animate__animated animate__fadeInDown" style="color:white;"><span style="color:orange;">KinderGarten Director:</span> [[${director.nom}]]  [[${{director.prenom}}]]</h6>      
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col" style="text-align:left;">
+                    <h3 style="color:darkblue" class="animate__animated animate__fadeInDown"><span>[[${skinf.nomenfant}]]</span> [[${skinf.prenomenfant}]]</h3>
+                  </div>
+                  <div class="col" style="text-align:right;">
+                    
+                    <input type="hidden" id="emailparent" th:value="${skinf.emailparent}">
+                    <input type="hidden" id="idenfant" th:value="${skinf.idenfant}">
+                    <input type="hidden" id="keyenfant" th:value="${skinf.keyenfant}">
+                    <input type="hidden" id="keyparent" th:value="${skinf.keyparent}">
+                    <input type="hidden" id="nomenfant" th:value="${skinf.nomenfant}">
+                    <input type="hidden" id="nomparent" th:value="${skinf.nomparent}">
+                    <input type="hidden" id="prenomenfant" th:value="${skinf.prenomenfant}">
+                    <input type="hidden" id="prenomparent" th:value="${skinf.prenomparent}">
+
+                    
+                    <a href="#"  id = "btn_streaming" class="btn btn-success" onClick="streamingCamera();">Stream Your Camera</a>
+                    <div>&nbsp;</div>
+                    <div>
+                    <table><tr><td>
+                    <b>Streaming Key: </b></td><td> <input type="text" style="width:120px;" class="form-control" id="keystream0" readonly>
+                    </td></tr></table>
+                  </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div>&nbsp;</div><div>&nbsp;</div>
+                    <div>
+                      <video id="player" controls autoplay style="width:160px; height:120px"></video>
+                      <canvas id="canvas" style="width:160px; height:120px"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+            <td>
+              <div class="card">
+                <div class="card-header">
+                  <div class="form-group row">
+                  <table><tr><td>
+                    Parent Streaming Key
+                  </td>
+                  <td>
+                    <input id="keystream" style="width:200px;" class="form-control" type="text" placeholder="Parent Streaming Key" th:value="${skinf.keyparent}" readonly>
+                  </td></tr></table>
+                  </div>
+                </div>
+                <div class="card-body">      
+                  
+                  <div class="container">
+                    <div class="form-group row">
+                  
+                      <div class="col-6">
+                        <h6><b>Video Streaming</b></h6>
+                      </div>
+                      <div class="col-6">
+                        <h6><b>[[${skinf.nomparent}]] [[${skinf.prenomparent}]]</b></h6>                
+                      </div>
+             
+                    </div>
+                  
+                    <div>&nbsp;</div>
+                    <div style="border-style: solid;vertical-align:center;">
+                      <div style="font-size:12px;"> 
+                        <a th:href="@{'http://localhost/temp/hls/' + ${skinf.keyparent} + '.m3u8'}" target="_blank">http://localhost/temp/hls/[[${skinf.keyparent}]].m3u8</a>
+                      </div>
+                      <!--              
+                      <video id="video" 
+                            width='240px' height='180px' controls autoplay
+                            th:src="@{'http://localhost/temp/hls/' + ${skinf.keyparent} + '.m3u8'}">
+                      </video>
+                    -->                   
+                  
+                   
+               <!-- Invocation Script 
+               <script>
+                   if (Hls.isSupported()) {
+                     var video = document.getElementById('video');
+                     var hls = new Hls();
+                     hls.loadSource(video.src);
+                     hls.attachMedia(video);
+                   }else{
+                       alert("Cannot stream HLS, use another video source");
+                   }
+               </script>
+              -->
+                     
+                    </div>
+                  </div>
+   
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+<script>
+  const player = document.getElementById('player');
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+
+  const constraints = {
+    video: true,
+  };
+
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then((stream) => {
+      player.srcObject = stream;
+  });
+
+</script>
+
+  </section>
+
+
+  <div th:replace="/fragments/script.html :: script">
+
+</body>
+
+</html>

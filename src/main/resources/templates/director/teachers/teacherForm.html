@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="www.thymeleaf.org">
+  <head th:replace="/fragments/head.html :: head">
+  </head>
+  <body>
+
+    <!-- ======= Top Bar ======= -->
+    <section th:replace="/fragments/topbar.html :: topbar">
+    </section>
+  
+    <!-- ======= Header ======= -->
+    <header th:replace="/fragments/header.html :: header">
+    </header><!-- End Header -->
+  
+    <!-- ======= Hero Section ======= -->
+    <section id="hero">
+      <div class="hero-container">
+        <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+  
+          <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+  
+          <div class="carousel-inner" role="listbox">
+  
+            <!-- Slide 1 -->
+            <div class="carousel-item active" style="background-image: url(/assets/img/bg_1.jpg);">
+              <div class="carousel-container">
+                <div class="carousel-content">
+                  <div>&nbsp;</div>
+                  <div>&nbsp;</div>
+                  <h2 class="animate__animated animate__fadeInDown"><span>Teachers</span> Managment</h2>
+                  <h6 class="animate__animated animate__fadeInDown" style="color:white;"><span style="color:orange;">KinderGarten Director:</span> [[${directeur.nom}]]  [[${{directeur.prenom}}]]</h6>
+                  <form id="ft" th:action="@{/director/teachers/save}" th:object="${teacher}" method="post">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="container" style="width:1000px;">
+                            <div th:if="${teacher.id == null}">
+                                <h3 style="color:white;"><b>Add New Teacher</b></h3>
+                            </div>
+                            <div th:unless="${teacher.id == null}">
+                                <h3 style="color:white;"><b>Edit Teacher</b></h3>
+                            </div> 
+                                      
+                                <div class="container" style="border: 3px solid white;padding:50px;text-align:left;" >
+                                 <div class="row">
+                                    <div class="col">
+                                              <div class="form-group">
+                                                  <label style="color:white;">First Name</label>
+                                                  <input class="form-control" style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" th:field="*{prenom}" type="text" >
+                                              </div>
+                                              <div class="form-group">
+                                                <label style="color:white;">Last Name</label>
+                                                <input class="form-control" style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" th:field="*{nom}" type="text" >
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="color:white;">Address</label>
+                                                <input class="form-control" style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" th:field="*{adresse}" type="text" >
+                                            </div>
+                                        </div>
+                                            <div class="col">
+                                            <div class="form-group">
+                                                <label style="color:white;">Email</label>
+                                                <input class="form-control" style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" th:field="*{email}" type="email" >
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="color:white;">Tel</label>
+                                                <input class="form-control" style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" th:field="*{tel}" type="text" >
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="color:white;">Diploma</label>
+                                                <input class="form-control" style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" th:field="*{diplome}" type="text" >
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                        
+                                              <div>&nbsp;</div>
+                                              <div class="form-group">
+                                                <div style="text-align:center;">
+                                                    <a href="#" class="btn-menu animate__animated animate__fadeInUp scrollto" onClick="document.getElementById('ft').submit();">Save</a>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <a th:href="@{/director/teacher}" class="btn-menu animate__animated animate__fadeInUp scrollto">Cancel</a>
+
+                                                </div>
+    
+                                              </div>
+                                            </div>
+                                          
+                                      </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+  
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+  
+    

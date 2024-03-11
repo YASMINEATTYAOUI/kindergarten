@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>KinderGarten </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link th:href="@{/assets/img/favicon.png}" rel="icon">
+  <link th:href="@{/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/assets/vendor/animate.css/animate.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+  
+  <script src="https://cdn.tutorialjinni.com/hls.js/1.2.1/hls.min.js"></script>
+  
+  <script>
+    var winddisp;
+    var streaming = false;
+
+    async function getStreamingKeys(email,ide) {
+      let x = await fetch("http://localhost:8080/api/streamkeys/" + email + "/" + ide);
+      let y = await x.text();
+      res = JSON.parse(y);
+      for(i=0;i<res.length;i++)
+          alert(res[i].keyParent + " " + res[i].keyEnfant);
+    }  
+  
+    async function saveStreamKey(strmk) {
+
+      //var strmk = document.getElementById('streamkey').value;
+      var pemail = document.getElementById('parentemail').value;
+      let x = await fetch("http://localhost:8080/api/streamkeys/" + pemail + "/0/" + strmk + "/_");
+      let y = await x.text();
+      res = JSON.parse(y);
+       
+    }
+    async function refreshChildKey() {
+      document.getElementById("keystream").value = "";
+      var pemail = document.getElementById('parentemail').value;
+      if(document.getElementById("currentChildId").value > 0) {
+        url = "http://localhost:8080/api/streamkeys/" + pemail + "/" + document.getElementById("currentChildId").value;
+        let x = await fetch(url);
+        let y = await x.text();
+        res = JSON.parse(y);
+        if(res) {
+                document.getElementById("keystream").value =  res["keyEnfant"];
+                document.getElementById("streamlink").innerHTML = "http://localhost/temp/hls/" + res["keyEnfant"] + ".m3u8";
+                document.getElementById("streamlink").href = "http://localhost/temp/hls/" + res["keyEnfant"] + ".m3u8";
+                
+        }
+      }
+      else {
+          alert("You must choose the child to Call");
+      }
+    }
+
+    function makeid(length) {
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return result;
+  }
+
+    function streamingCamera() {
+      if (!streaming) {
+        keystream = makeid(8);
+        document.getElementById("keystream0").value = keystream;
+        document.getElementById("btn_streaming").innerHTML = "Stop Streaming Your Camera";
+        streaming = true;
+        url = 'https://localhost?key=' + keystream;
+        saveStreamKey(keystream);
+        winddisp = window.open(url, '_blank');      
+      }
+      else {
+        document.getElementById("btn_streaming").innerHTML = "Stream Your Camera";
+        streaming = false;
+        document.getElementById("keystream0").value ="";  
+        saveStreamKey("_");
+        winddisp.close();
+      }
+    }
+    async function callChild(b) {
+      var pemail = document.getElementById('parentemail').value;
+      var ide = b.id;
+      document.getElementById("currentChildId").value = ide;
+      let x = await fetch("http://localhost:8080/api/streamkeys/" + pemail + "/" + ide + "/__/__");
+      let y = await x.text();
+      res = JSON.parse(y);   
+      alert("A Call was sent to the kindergarten please wait a response from your child");
+      rows = b.parentNode.parentNode.parentNode.rows;
+      for(i=0;i<rows.length;i++) {
+        rows[i].style.backgroundColor="white";
+      }  
+      b.parentNode.parentNode.style.backgroundColor="orange";
+      cells = b.parentNode.parentNode.cells;
+      document.getElementById("childinfo").innerHTML = "<b>" + cells[0].innerHTML + " " + cells[1].innerHTML + "</b>";
+
+      document.getElementById("keystream").value = "";
+    }
+  </script>
+</head>
+
+<body onload="initPage('Trko4y')">
+  
+  <!-- ======= Top Bar ======= -->
+  <section th:replace="/fragments/topbar.html :: topbar">
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header th:replace="/fragments/header.html :: header">
+  </header><!-- End Header -->
+
+  
+    <!-- ======= Hero Section ======= -->
+    <section id="hero">
+        <div class="hero-container">
+          <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    
+            <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+    
+            <div class="carousel-inner" role="listbox">
+    
+              <!-- Slide 1 -->
+              <div class="carousel-item active" style="background-image: url(/assets/img/bg_1.jpg);">
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+        
+      
+            <div class="container" style="width:1000px;">
+              <table>
+                <tr><td>
+          
+                  <div class="card" style="max-height:500px;">
+              <div class="card-header">           
+                  <h3 style="color:orange;"><b>Make a Video Call To Your Child </b></h3>        
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col" style="text-align:left;">
+                    <h3 style="color:darkblue" class="animate__animated animate__fadeInDown"><span>[[${parent.nom}]]</span> [[${parent.prenom}]]</h3>
+                  </div>
+                  <div class="col" style="text-align:right;">
+                    
+                    <input type="hidden" id="parentemail" th:value="${parent.email}">
+                    <input type="hidden" id = "currentChildId" value="0">
+                    <a href="#"  id = "btn_streaming" class="btn btn-success" onClick="streamingCamera();">Stream Your Camera</a>
+                    <div>&nbsp;</div>
+                    <div>
+                    <table><tr><td>
+                    <b>Streaming Key: </b></td><td> <input type="text" style="width:120px;" class="form-control" id="keystream0" readonly>
+                    </td></tr></table>
+                  </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div>&nbsp;</div><div>&nbsp;</div>
+                    <div>
+                      <video id="player" controls autoplay style="width:160px; height:120px"></video>
+                      <canvas id="canvas" style="width:160px; height:120px"></canvas>
+                    </div>
+
+                  </div>
+                  <div class="col">
+                    <div>&nbsp;</div><div>&nbsp;</div>
+                    <div style="text-align:center">
+                      <h6><b>Your Children</b></h6>
+                    </div>
+                    <div class="container" style="overflow:auto;max-height:300px;">
+                    <table class="table table-bordered table-hover table-sm">
+                      <theader>
+                        <tr>
+                        <th style="font-size:12px;">Last Name</th>
+                        <th style="font-size:12px;">First Name</th>
+                        <th style="font-size:12px;">KinderGarten</th>
+                        <th style="font-size:12px;">video Call</th>
+                        </tr>
+                      </theader>
+                      <tbody>
+                        <th:block th:each="enfant: ${listEnfantsInsc}">
+                          <tr>
+                            <td style="font-size:12px;">[[${enfant.nom}]] </td>
+                            <td style="font-size:12px;">[[${enfant.prenom}]] </td>
+                            <td style="font-size:12px;">[[${enfant.kindergarten_name}]] </td>
+                           
+                            <td style="font-size:12px;">                      
+                                 <a th:id="${enfant.id}" href="#" class="btn btn-warning" onClick="callChild(this);"> <i class="bi bi-camera"></i></a>                          
+                            </td>
+                          </tr>
+                        </th:block>
+                      </tbody>
+                    </table>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+            <td>
+              <div class="card">
+                <div class="card-header">
+                  <div class="form-group row">
+                  <div class="col-6">
+                    <input id="keystream" style="width:200px;" class="form-control" type="text" placeholder="Child Streaming Key" readonly>
+                    </div>
+                    <div class="col-6">
+                      <a id= "refreshBtn" href="#" class="btn btn-primary btn-sm" onClick="refreshChildKey();"><i class="bi bi-refresh">Refresh</i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">      
+                  
+                  <div class="container">
+                    <div class="form-group row">
+                  
+                      <div class="col-6">
+                        <h6><b>Video Streaming</b></h6>
+                      </div>
+                      <div class="col-6">
+                        <h6 id="childinfo"></h6>          
+                      </div>
+                     
+                    </div>
+                    <div>&nbsp;</div>
+                    
+                     
+                      <div style="border-style: solid;vertical-align:center;">
+                        <div style="font-size:12px;"> 
+                          <a id="streamlink"href="#" target="_blank"></a>
+                        </div>
+                      </div>
+                  
+                   
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function playStreams() {
+  if (Hls.isSupported()) {
+    var url = "http://localhost/temp/hls/" + document.getElementById("keystream").value + ".m3u8";
+    var video = document.getElementById('remotevideo');
+    video.src=url;
+    var hls = new Hls();
+    hls.loadSource(video.src);
+    hls.attachMedia(video);
+  }else{
+      alert("Cannot stream HLS, use another video source");
+  }
+}
+</script>
+  
+<script>
+  const player = document.getElementById('player');
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+
+  const constraints = {
+    video: true,
+  };
+
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then((stream) => {
+      player.srcObject = stream;
+  });
+
+</script>
+
+  </section>
+
+
+  <div th:replace="/fragments/script.html :: script">
+
+</body>
+
+</html>

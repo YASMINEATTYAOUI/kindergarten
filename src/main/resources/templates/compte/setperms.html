@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/head.html :: head">
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <section th:replace="/fragments/topbar.html :: topbar">
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header th:replace="/fragments/header.html :: header">
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div class="hero-container">
+      <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+          <!-- Slide 1 -->
+          <div class="carousel-item active" style="background-image: url(/assets/img/bg_1.jpg);">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <h2 class="animate__animated animate__fadeInDown"><span>Account</span> Managment</h2>
+                <form id="faccount" th:action="@{/compte/save}" th:object="${compte}" method="post">
+                    <input type="hidden" th:field="*{type}" th:value="${compte.type}">
+                    <div class="container" style="width:1000px;">
+                        <div class="row">
+                            <div class="col">
+                                
+                                    <h4 style="color:white;"><b>Set Permissions & Enable/Disable Account</b></h4>
+                                    
+                                    <div class="container" style="border: 3px solid white;padding:50px;text-align:left;" >
+                                            <div>
+                                               <h4 style="color:white;"><b>[[${cpt_owner.type}]]</b></h4>
+                                            </div>
+                                            <div class="form-group">
+                                              <label style="color:white;">Name</label>
+                                              <input style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"class="form-control form-rounded" type="text" th:value="${cpt_owner.nom}" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                              <label style="color:white;">SurName</label>
+                                              <input style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"class="form-control form-rounded" type="text" th:value="${cpt_owner.prenom}" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="color:white;">Email</label>
+                                                <input style=" background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"class="form-control form-rounded" th:field="*{email}" type="email" placeholder="useradress@mail.com" id="email" readonly>
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            
+                                            <div class="form-group">
+                                                <input class="form-check-input" th:field="*{enabled}" type="checkbox">
+                                                <label style="color:white;"class="form-check-label">Enable Account</label>
+                                            </div>
+                                        
+                                    </div>
+                            </div>
+                            <div class="col">
+                                <h4 style="color:white"><b>Set Access Permissions </b></h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="container" style="overflow:auto;max-height:200px;text-align:left;">
+                                            <th:block th:each="ap : ${listAP}">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" th:field="*{accesspermissions}" type="checkbox" th:value="${ap.id}">    
+                                                    <label class="form-check-label">[[${ap.description}]]</label>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>&nbsp;</div>
+                    <div>
+                        <a href="#" class="btn-menu animate__animated animate__fadeInUp scrollto" onClick="document.getElementById('faccount').submit();"><b>Save</b></a>
+                       &nbsp;&nbsp;&nbsp;
+                        <a th:href="@{/compte}" class="btn-menu animate__animated animate__fadeInUp scrollto"><b>Cancel</b></a>
+                    </div>
+               
+               
+               
+                </form>
+   
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+  <div th:replace="/fragments/script.html :: script">
+
+</body>
+
+</html>

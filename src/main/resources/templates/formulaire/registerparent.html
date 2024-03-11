@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="www.thymeleaf.org">
+  <head th:replace="/fragments/head.html :: head">
+  </head>
+  <body>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init('kshstWY9j0Jfe4U3c');
+        })();
+    </script>
+    <script type="text/javascript">
+
+//ipconfig
+//C:\Windows\System32\drivers\etc\hosts
+
+      function valider_parent() {
+        email=document.getElementById("email").value;
+        if(email.length <= 0)
+          alert("Email Adress is Required");
+        else {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+              if(this.status != 200) {
+                valider_parent_ok();
+              }
+              else 
+                    alert("The Email Address Already Exists");
+            }
+        };
+        url ="http://www.kindergarten.fsb.com:8080/existCompte/" + email;
+        xhttp.open("GET", url, true);
+        xhttp.send();
+      }
+      }
+
+      function valider_director() {
+        email=document.getElementById("email_d").value;
+        if(email.length <= 0)
+          alert("Email Adress is Required");
+        else {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+              if(this.status != 200) {
+                valider_director_ok();
+              }
+              else 
+                    alert("The Email Address Already Exists");
+            }
+        };
+        url ="http://www.kindergarten.fsb.com:8080/existCompte/" + email;
+        xhttp.open("GET", url, true);
+        xhttp.send();
+      }
+      }
+
+
+      function makeid(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          counter += 1;
+        }
+        return result;
+    }
+      window.onload = function() {
+          document.getElementById('contact-form').addEventListener('submit', function(event) {
+            code_value = makeid(5);
+            this.message.value=code_value;
+            document.getElementById("hidcode").value=code_value;
+            this.send_to.value = document.getElementById("email").value;
+
+              event.preventDefault();
+              // generate a five digit number for the contact_number variable
+              this.contact_number.value = Math.random() * 100000 | 0;
+              // these IDs from the previous steps
+              emailjs.sendForm('service_5za7wiw', 'template_8v5vlah', this)
+                  .then(function() {
+                      alert("An Email Verification Code is sent to your email address");
+                     
+                  }, function(error) {
+                      alert("can not sent a verification code try again");
+                  });
+          });
+
+          document.getElementById('director-form').addEventListener('submit', function(event) {
+            code_value = makeid(5);
+            this.message.value=code_value;
+            document.getElementById("hidcode_d").value=code_value;
+            this.send_to.value = document.getElementById("email_d").value;
+
+              event.preventDefault();
+              // generate a five digit number for the contact_number variable
+              this.contact_number.value = Math.random() * 100000 | 0;
+              // these IDs from the previous steps
+              emailjs.sendForm('service_5za7wiw', 'template_8v5vlah', this)
+                  .then(function() {
+                      alert("An Email Verification Code is sent to your email address");
+                     
+                  }, function(error) {
+                      alert("can not sent a verification code try again");
+                  });
+          });
+      }
+
+  function valider_parent_ok(){
+    var email = document.getElementById("email").value;
+  
+    var nom = document.getElementById("nom").value;
+    
+    var prenom = document.getElementById("prenom").value;
+    var adresse = document.getElementById("adresse").value;
+   
+    var tel1 = document.getElementById("tel1").value;
+    var tel2 = document.getElementById("tel2").value;
+    if((email.length<=0)||(nom.length<=0)||(prenom.length<=0)||(adresse.length<=0)||(tel1.length<=0)||(tel2.length<=0))
+    {
+      alert("All fields must be filled");
+      return false;
+    }
+    
+    var hcode = document.getElementById("hidcode").value;
+    var code = document.getElementById("code").value;
+   
+    
+    var pwd = document.getElementById("password").value;
+    var cpwd = document.getElementById("confirm_password").value;
+   
+    if(pwd == cpwd){
+       if((code.length<=0)||(hcode != code)) {
+            alert("Verification Code is not valid ! try again");
+            return false;
+        }
+      document.getElementById('fparent').submit();
+    }
+    else {
+      alert("The password is not confirmed");
+    }
+  }
+  function valider_director_ok(){
+   
+    var email = document.getElementById("email_d").value;
+  
+    var nom = document.getElementById("nom_d").value;
+    
+    var prenom = document.getElementById("prenom_d").value;
+    var adresse = document.getElementById("adresse_d").value;
+   
+    var tel = document.getElementById("tel_d").value;
+
+    
+    if((email.length<=0)||(nom.length<=0)||(prenom.length<=0)||(adresse.length<=0)||(tel.length<=0))
+    {
+      alert("All fields must be filled");
+      return false;
+    }
+    
+    var hcode = document.getElementById("hidcode_d").value;
+    var code = document.getElementById("code_d").value;
+   
+    
+    var pwd = document.getElementById("password_d").value;
+    var cpwd = document.getElementById("confirm_password_d").value;
+   
+    if(pwd == cpwd){
+       if((code.length<=0)||(hcode != code)) {
+            alert("Verification Code is not valid ! try again");
+            return false;
+        }
+      document.getElementById('fdirector').submit();
+    }
+    else {
+      alert("The password is not confirmed");
+    }
+  }
+</script>
+    <!-- ======= Top Bar ======= -->
+    <section th:replace="/fragments/topbar.html :: topbar">
+    </section>
+  
+    <!-- ======= Header ======= -->
+    <header th:replace="/fragments/header.html :: header">
+    </header><!-- End Header -->
+  
+    <section id="hero">
+        <div class="hero-container">
+          <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    
+            <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+    
+            <div class="carousel-inner" role="listbox">
+    
+              <!-- Slide 1 -->
+              <div class="carousel-item active" style="background-image: url(/assets/img/bg_1.jpg);">
+                <div class="carousel-container">
+                  <div class="carousel-content">
+
+                    <div class="container">
+                        <h3 class="animate__animated animate__fadeInDown" style="color:white;"><span><b>Register as a Parent or as a Kindergarten Director</b></span></h3>
+                        
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a data-toggle="tab" href="#parent" style="color:orange;"><b>Parent</b></a></li>
+                          <li><a data-toggle="tab" href="#kgdirector" style="color:orange;"><b>KinderGarten Director</b></a></li>
+    
+                        </ul>
+                      
+                        <div class="tab-content">
+       
+
+                          <div id="parent" class="tab-pane fade in active text-center">
+
+                           <table><tr><td style="width:75%"> 
+
+                            <form id="fparent" th:action="@{/parent/register}" th:object="${parentinfo}" method="post">
+                                <div>&nbsp;</div>
+                                <input type="hidden" id ="hidcode">
+                                <input type="hidden" name="contact_number">
+                                <table style="width:1000px;"><tr>
+                                    <td >
+                                <div class="form-group" style="text-align:left;">
+                                    <label for="prenom" style="color:white;">First Name</label>
+                                    <input th:field="*{prenom}" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"class="form-control form-rounded"  type="text" placeholder="first name" id="prenom">
+                                </div>
+                                <div class="form-group" style="text-align:left;">
+                                    <label for="nom" style="color:white;">Last Name</label>
+                                    <input th:field="*{nom}" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"class="form-control form-rounded"  type="text" placeholder="Last name" id="nom">
+                                </div>
+                              
+                                <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Email</label>
+                                    <input th:field="*{email}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="email" placeholder="email" id="email" name="email">
+                                 </div>
+                            </td>
+                            <td style="padding:10px;">&nbsp;</td>
+
+                            <td >
+                                <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Adress</label>
+                                    <input th:field="*{adresse}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"  type="text" placeholder="adress" id="adresse">
+                                </div>
+                                 <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Tel1</label>
+                                    <input th:field="*{tel1}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="text" placeholder="Tel1" id="tel1">
+                                 </div>
+                                 <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Tel2</label>
+                                    <input th:field="*{tel2}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="text" placeholder="Tel2" id="tel2">
+                                 </div>
+
+                            </td>
+                            <td style="padding:10px;">&nbsp;</td>
+
+                            <td>
+                                
+                               
+                                  <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Password</label>
+                                    <input th:field="*{password}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="password" placeholder="password" id="password">
+                                 </div>
+                                 <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Confirm Password</label>
+                                    <input class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="password" placeholder="confirm password" id="confirm_password">
+                                 </div>
+                                 <div style="text-align:left;">
+                                 <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input th:field="*{sexe}" type="radio"  class="form-check-input" name="optradio" value="Homme"><font color="white"><b>Male&nbsp;</b></font>
+                                      
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input th:field="*{sexe}" type="radio" class="form-check-input" name="optradio" value="Femme"><font color="white"><b>Female</b></font>
+                                    </label>
+                                  </div>
+                                  <div >&nbsp;</div>
+                                </div>
+                            </td>
+                        </tr>
+                    
+
+                    </table>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>
+                      <table><tr><td>
+                   
+                      
+                      </td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>
+   
+                    </td></tr></table>
+                    </div>
+                    <div> 
+                        
+                        <a href="#" class="btn-menu animate__animated animate__fadeInUp scrollto" onClick="valider_parent();">Register</a>
+                       &nbsp;&nbsp;&nbsp;
+                       <a th:href="@{/}" class="btn-menu animate__animated animate__fadeInUp scrollto">Cancel</a>
+                    </div>
+               
+                    
+                    </form>
+                  </td>
+                  <td style="width:25%;vertical-align: text-top; padding-top:45px;">
+                            <form id="contact-form">
+                              <input type="hidden" name="contact_number" id="contact_number">
+                              <input type="hidden" name="send_to" id="send_to">
+                              
+                              <input type="hidden" name="from_name" value="Happy Kiddos">
+                         
+                              
+                              <input type="hidden" name="message" id="message">
+
+                              <div class="form-group" style="padding-left:20px;">
+                              
+                                <input class="btn btn-success" type="submit" value="Send me a Verification Code">
+                              </div>
+                            
+                                <div class="form-group" style="padding-left:20px;">
+                                  <label style="color:white;">Verification Code</label>
+                                  <input class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="text" placeholder="Verification code" id="code">
+                               </div>
+                              
+                            </form>
+                          </td>
+                        </tr>
+                      </table>
+                      </div>
+
+
+
+                          <div id="kgdirector" class="tab-pane fade">
+                       <table>
+                        <tr>
+                          <td style="width:75%;">      
+                            <form id="fdirector" th:action="@{/director/register}" th:object="${dinfo}" method="post">
+                                <div>&nbsp;</div>
+                                <input type="hidden" id ="hidcode_d">
+                                <table style="width:1000px;"><tr>
+                                    <td >
+                                <div class="form-group" style="text-align:left;">
+                                    <label for="prenom" style="color:white;">First Name</label>
+                                    <input th:field="*{prenom}" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"class="form-control form-rounded"  type="text" placeholder="first name" id="prenom_d">
+                                </div>
+                                <div class="form-group" style="text-align:left;">
+                                    <label for="nom" style="color:white;">Last Name</label>
+                                    <input th:field="*{nom}" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"class="form-control form-rounded"  type="text" placeholder="Last name" id="nom_d">
+                                </div>           
+                 
+                            </td>
+                            <td style="padding:10px;">&nbsp;</td>
+
+                            <td >
+                              <div class="form-group" style="text-align:left;">
+                                <label style="color:white;">Email</label>
+                                <input th:field="*{email}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="email" placeholder="email" id="email_d">
+                             </div>
+                                 <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Tel</label>
+                                    <input th:field="*{tel}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="text" placeholder="Tel1" id="tel_d">
+                                 </div>
+                               
+                 
+                                </td>
+
+                                <td>
+             
+                                  <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Password</label>
+                                    <input th:field="*{password}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="password" placeholder="password" id="password_d">
+                                 </div>
+                                 <div class="form-group" style="text-align:left;">
+                                    <label style="color:white;">Confirm Password</label>
+                                    <input  class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="password" placeholder="password" id="confirm_password_d">
+                                 </div>
+
+                                </td>
+                        </tr>
+                    <tr>
+                      <td colspan=4>
+                        <div class="form-group" style="text-align:left;">
+                          <label style="color:white;">Adress</label>
+                          <input  th:field="*{adresse}" class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;"  type="text" placeholder="adress" id="adresse_d">
+                        </div>
+                      </td>
+                    </tr>
+
+                    </table>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+
+                    <div> 
+                        <a href="#" class="btn-menu animate__animated animate__fadeInUp scrollto" onClick="valider_director();">Register</a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a th:href="@{/}" class="btn-menu animate__animated animate__fadeInUp scrollto">Cancel</a>
+                       
+                    </div>
+               
+                    
+                            </form>
+                          
+                          </td>
+
+                          <td style="width:25%;vertical-align: text-top; padding-top:45px;">
+                            <form id="director-form">
+                              <input type="hidden" name="contact_number" id="contact_number_d">
+                              <input type="hidden" name="send_to" id="send_to_d">
+                              
+                              <input type="hidden" name="from_name" value="Happy Kiddos">
+                         
+                              
+                              <input type="hidden" name="message" id="message_d">
+
+                              <div class="form-group" style="padding-left:20px;">
+                              
+                                <input class="btn btn-success" type="submit" value="Send me a Verification Code">
+                              </div>
+                            
+                                <div class="form-group" style="padding-left:20px;">
+                                  <label style="color:white;">Verification Code</label>
+                                  <input class="form-control" style="background-color: #EEE6D7; border: 1px solid black;opacity: 0.6;border-radius: 2rem;" type="text" placeholder="Verification code" id="code_d">
+                               </div>
+                              
+                            </form>
+                          </td>
+                        </tr>
+                      </table>
+
+
+
+
+
+
+                          </div>
+                        
+                        </div>
+                      </div>
+                      
+
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div th:replace="/fragments/script.html :: script"></div>
+-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>   
+  
+</body>
+
+</html>
+
